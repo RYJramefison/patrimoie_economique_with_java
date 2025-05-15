@@ -1,4 +1,4 @@
-package modele;
+package main.modele;
 
 import lombok.*;
 

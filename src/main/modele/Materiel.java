@@ -1,4 +1,4 @@
-package modele;
+package main.modele;
 
 
 import lombok.Getter;
@@ -30,7 +30,6 @@ public final class Materiel extends Possession {
 
         Materiel materielActuel = new Materiel(this.getNom(), this.getADateDe(), argentActuel, this.tauxDappreciation );
         if (materielActuel instanceof Possession) {
-            System.out.println(valeurActuel);
             return materielActuel;
         }
         return null;
@@ -39,10 +38,6 @@ public final class Materiel extends Possession {
 
 
     public static void main(String[] args) {
-        Argent argent = new Argent(1000000, Devise.ARIARY);
-        Materiel materiel = new Materiel("PC asus rog", LocalDate.of(2025,5,15),argent,0.1);
-
-        System.out.println((Materiel) materiel.projectionFuture(LocalDate.of(2031, 1, 1)));
 
     }
 
