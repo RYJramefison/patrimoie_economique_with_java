@@ -21,9 +21,7 @@ public final class Materiel extends Possession {
     public Possession projectionFuture(LocalDate dateFuture) {
         double valeurActuel = this.getValeur().getMontant();
         int years = Period.between(this.getADateDe(), dateFuture).getYears();
-        System.out.println(years);
         for (int i = 0; i < years; i++) {
-            System.out.println(i);
             double nouvelleValeur = valeurActuel - (valeurActuel * this.tauxDappreciation);
             valeurActuel = nouvelleValeur;
         }
