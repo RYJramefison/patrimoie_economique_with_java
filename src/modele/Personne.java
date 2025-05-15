@@ -1,7 +1,5 @@
 package modele;
 
-public record Personne(String name) {
+public record Personne(String nom) {
 
-    public static void main(String[] args) {
-    }
 }

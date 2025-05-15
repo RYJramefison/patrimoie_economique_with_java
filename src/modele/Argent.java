@@ -1,4 +1,14 @@
 package modele;
 
-public final class Argent extends Possession {
+import lombok.*;
+
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+
+public class Argent {
+    private final double montant;
+    private final Devise devise;
+
 }
