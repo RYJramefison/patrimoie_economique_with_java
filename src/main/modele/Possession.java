@@ -11,9 +11,9 @@ import java.time.LocalDate;
 @Getter
 
 public abstract sealed class Possession permits Compte, Materiel, TrainDeVie {
-    private final String nom;
-    private final LocalDate aDateDe;
-    private final Argent valeur;
+    protected final String nom;
+    protected final LocalDate aDateDe;
+    protected final Argent valeur;
 
     public abstract Possession projectionFuture(LocalDate dateFuture);
 }

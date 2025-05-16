@@ -13,15 +13,15 @@ import java.util.Set;
 public class PatrimoineTest {
 
     @Test
-    public void testProjectionFutur() {
+    public void test_projection_futur_patrimoine() {
         //
         Personne john = new Personne("John");
 
         Argent argentPourPC = new Argent(1000000, Devise.ARIARY);
-        main.modele.Materiel PC = new main.modele.Materiel("PC asus rog", LocalDate.of(2025,5,15),argentPourPC,0.1);
+        main.modele.Materiel PC = new main.modele.Materiel("PC asus rog", LocalDate.of(2025,5,15),argentPourPC,0.1,LocalDate.of(2025,5,15));
 
         Argent argentPourVetement = new Argent(20000, Devise.ARIARY);
-        main.modele.Materiel vetement = new main.modele.Materiel("vetement", LocalDate.of(2025,5,15),argentPourVetement,0.2);
+        main.modele.Materiel vetement = new main.modele.Materiel("vetement", LocalDate.of(2025,5,15),argentPourVetement,0.2,LocalDate.of(2025,5,15));
 
         Patrimoine patrimoineDeJohn = new Patrimoine(john,LocalDate.of(2025,5,15), Set.of(PC, vetement));
 
@@ -31,4 +31,7 @@ public class PatrimoineTest {
 //
         Assertions.assertEquals(597043.60, projectionFutureDeJohn);
     }
+
+    @Test
+    public void test_projection_futur_patrimoine_vetement() {}
 }
