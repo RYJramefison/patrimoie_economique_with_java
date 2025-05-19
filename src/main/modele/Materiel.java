@@ -21,33 +21,34 @@ public final class Materiel extends Possession {
 
     @Override
     public Possession projectionFuture(LocalDate dateFuture) {
-        double valeurActuel = this.getValeur().getMontant();
-        int nombreAnnee = Period.between(this.dateDAcquisition, dateFuture).getYears();
 
-        // creer une condition qui verifie si la dateFuture et plus ancien que la dateDAppreciation
-
-        // methode 1
-        for (int i = 0; i < nombreAnnee; i++) {
-            double nouvelleValeur = valeurActuel - (valeurActuel * this.tauxDappreciation);
-            valeurActuel = nouvelleValeur;
+        if (dateFuture.isBefore(this.dateDAcquisition)) {
+            return new Materiel(
+                    this.nom, dateFuture, Argent.ariary(0d),
+                    this.tauxDappreciation,this.dateDAcquisition
+            );
         }
 
-        // methode 2
-//        double valeurFuture = this.getValeur().getMontant() * Math.pow((1 - this.tauxDappreciation / 100), nombreAnnee);
+        int anneeEcoulee = Period.between(this.dateDAcquisition, dateFuture).getYears();
 
-        Argent argentActuel = new Argent(valeurActuel,this.getValeur().getDevise());
+        double tauxDAppreciationAnnuel = Math.pow((1 - this.tauxDappreciation), anneeEcoulee);
 
-        Materiel materielActuel = new Materiel(this.getNom(), dateFuture, argentActuel, this.tauxDappreciation , this.dateDAcquisition);
-        if (materielActuel instanceof Possession) {
-            return materielActuel;
-        }
-        return null;
+        Argent valeurFuture = valeur.multiplier(tauxDAppreciationAnnuel);
+
+        return new Materiel(this.nom, dateFuture, valeurFuture,
+                this.tauxDappreciation, this.dateDAcquisition
+        );
     }
 
 
 
     public static void main(String[] args) {
+        double tauxDAmortissement = 0.1d;
 
+        double tauxDAmortissementAnnuel = Math.pow((1 - tauxDAmortissement), 5);
+        System.out.println(tauxDAmortissementAnnuel);
+
+        System.out.println(1_000_000 * tauxDAmortissementAnnuel);
     }
 
 }

@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="junit-platform-launcher-1.12.0">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Downloads/junit-platform-launcher-1.12.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../PROG3/Extention library/junit/junit-platform-launcher-1.12.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

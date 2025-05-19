@@ -30,6 +30,7 @@ public class Argent {
     public static Argent euro(double montant){
         return new Argent(montant, Devise.EURO);
     }
+
     public static Argent dollar(double montant){
         return new Argent(montant, Devise.US_DOLLAR);
     }

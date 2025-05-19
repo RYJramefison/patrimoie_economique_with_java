@@ -18,19 +18,20 @@ public class Patrimoine {
 
         double sommeDesValeursTotal = 0;
 
-        double sommeDesValeursDansComptesEtTrainDeVie = 0;
-        double sommeDesValeursDansMateriels = 0.0;
+        double sommeDesValeursDansComptes = 0;
+        double sommeDesValeursDansTrainDeVie = 0;
+        double sommeDesValeursDansMateriels = 0;
 
         for (Possession possession : this.possessions) {
                         switch (possession){
-                            case Compte compte -> sommeDesValeursDansComptesEtTrainDeVie += possession.getValeur().getMontant();
-                            case TrainDeVie trainDeVie -> sommeDesValeursDansComptesEtTrainDeVie += possession.getValeur().getMontant();
+                            case Compte compte -> sommeDesValeursDansComptes += possession.getValeur().getMontant();
+                            case TrainDeVie trainDeVie -> sommeDesValeursDansTrainDeVie += trainDeVie.projectionFuture(dateFuture).getValeur().getMontant();
                             case Materiel materiel-> sommeDesValeursDansMateriels += materiel.projectionFuture(dateFuture).getValeur().getMontant();
                 default -> throw new IllegalStateException("valeur invalid: " + possession);
             }
         }
 
-        sommeDesValeursTotal = sommeDesValeursDansComptesEtTrainDeVie + sommeDesValeursDansMateriels ;
+        sommeDesValeursTotal = sommeDesValeursDansComptes + sommeDesValeursDansTrainDeVie + sommeDesValeursDansMateriels ;
         return sommeDesValeursTotal;
     }
 

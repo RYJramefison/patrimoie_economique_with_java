@@ -27,13 +27,25 @@ public final class TrainDeVie extends Possession {
             );
         }
 
-        long moisEcoulee = Period.between(debutDelaPonction,dateFuture).getMonths();
+        long moisEcoulee = Period.between(this.debutDelaPonction, dateFuture).getMonths();
 //        long moisEcoulee = MONTHS.between(debutDelaPonction,dateFuture).getMonths();
 
         if (dateFuture.getDayOfMonth() >= jourDOperation) {
+            Argent valeurFuture = this.financeur.getValeur().soustraction(this.valeur.multiplier(moisEcoulee));
 
-            Argent valeurFuture = financeur.getValeur().soustraction(valeur.multiplier(moisEcoulee));
+            return new TrainDeVie(
+                    this.nom, dateFuture,valeurFuture,
+                    this.financeur,this.jourDOperation,this.debutDelaPonction
+            );
+        }
 
+        else if (dateFuture.getDayOfMonth() < jourDOperation) {
+            Argent valeurFuture = this.financeur.getValeur().soustraction(this.valeur.multiplier(moisEcoulee - 1));
+
+            return new TrainDeVie(
+                    this.nom, dateFuture,valeurFuture,
+                    this.financeur,this.jourDOperation,this.debutDelaPonction
+            );
         }
         return null;
     }
