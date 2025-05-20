@@ -30,23 +30,16 @@ public final class TrainDeVie extends Possession {
         long moisEcoulee = Period.between(this.debutDelaPonction, dateFuture).getMonths();
 //        long moisEcoulee = MONTHS.between(debutDelaPonction,dateFuture).getMonths();
 
-        if (dateFuture.getDayOfMonth() >= jourDOperation) {
-            Argent valeurFuture = this.financeur.getValeur().soustraction(this.valeur.multiplier(moisEcoulee));
+//      1 jour de plus car cette fonction ne prend pas en compte le dernier jour du dateFuture
+        long nombreDOperation = debutDelaPonction.datesUntil(dateFuture.plusDays(1))
+                .filter( date -> date.getDayOfMonth() == this.jourDOperation
+        ).count();
 
-            return new TrainDeVie(
-                    this.nom, dateFuture,valeurFuture,
-                    this.financeur,this.jourDOperation,this.debutDelaPonction
-            );
-        }
+        Argent argentFuture = this.valeur.multiplier(nombreDOperation);
 
-        else if (dateFuture.getDayOfMonth() < jourDOperation) {
-            Argent valeurFuture = this.financeur.getValeur().soustraction(this.valeur.multiplier(moisEcoulee - 1));
-
-            return new TrainDeVie(
-                    this.nom, dateFuture,valeurFuture,
-                    this.financeur,this.jourDOperation,this.debutDelaPonction
-            );
-        }
-        return null;
+        return new TrainDeVie(
+                this.nom, dateFuture, argentFuture, this.financeur,
+                this.jourDOperation, this.debutDelaPonction
+        );
     }
 }

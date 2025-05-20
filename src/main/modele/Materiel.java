@@ -31,9 +31,12 @@ public final class Materiel extends Possession {
 
         int anneeEcoulee = Period.between(this.dateDAcquisition, dateFuture).getYears();
 
-        double tauxDAppreciationAnnuel = Math.pow((1 - this.tauxDappreciation), anneeEcoulee);
+        Argent valeurDeLAmortissement = this.valeur.multiplier(this.tauxDappreciation);
+        Argent valeurFuture = valeur.multiplier(valeurDeLAmortissement.getMontant());
 
-        Argent valeurFuture = valeur.multiplier(tauxDAppreciationAnnuel);
+
+//        double tauxDAppreciationAnnuel = Math.pow((1 - this.tauxDappreciation), anneeEcoulee);
+//        Argent valeurFuture = valeur.multiplier(tauxDAppreciationAnnuel);
 
         return new Materiel(this.nom, dateFuture, valeurFuture,
                 this.tauxDappreciation, this.dateDAcquisition
