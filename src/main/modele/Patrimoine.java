@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
@@ -14,25 +15,13 @@ public class Patrimoine {
     private final LocalDate aDateDe;
     private final Set<Possession> possessions;
 
-    public double projectionFuture(LocalDate dateFuture) {
+    public Patrimoine projectionFuture(LocalDate dateFuture) {
 
-        double sommeDesValeursTotal = 0;
+        Set<Possession> possessionsFuture = possessions.stream().map(possession ->
+                possession.projectionFuture(dateFuture))
+                .collect(Collectors.toSet());
 
-        double sommeDesValeursDansComptes = 0;
-        double sommeDesValeursDansTrainDeVie = 0;
-        double sommeDesValeursDansMateriels = 0;
-
-        for (Possession possession : this.possessions) {
-                        switch (possession){
-                            case Compte compte -> sommeDesValeursDansComptes += possession.getValeur().getMontant();
-                            case TrainDeVie trainDeVie -> sommeDesValeursDansTrainDeVie += trainDeVie.projectionFuture(dateFuture).getValeur().getMontant();
-                            case Materiel materiel-> sommeDesValeursDansMateriels += materiel.projectionFuture(dateFuture).getValeur().getMontant();
-                default -> throw new IllegalStateException("valeur invalid: " + possession);
-            }
-        }
-
-        sommeDesValeursTotal = sommeDesValeursDansComptes + sommeDesValeursDansTrainDeVie + sommeDesValeursDansMateriels ;
-        return sommeDesValeursTotal;
+        return new Patrimoine(possesseur, dateFuture, possessionsFuture);
     }
 
     public static void main(String[] args) {
@@ -48,8 +37,8 @@ public class Patrimoine {
 
         Patrimoine patrimoineDeJohn = new Patrimoine(john,LocalDate.of(2025,5,15),Set.of(PC, vetement));
 
-        double projectionFutureDeJohn = patrimoineDeJohn.projectionFuture(LocalDate.of(2031, 1, 1));
-        System.out.println(projectionFutureDeJohn);
+//        double projectionFutureDeJohn = patrimoineDeJohn.projectionFuture(LocalDate.of(2031, 1, 1));
+//        System.out.println(projectionFutureDeJohn);
 
     }
 }
