@@ -12,11 +12,13 @@ public class Argent {
     private final Devise devise;
 
     public Argent additionner(Argent that){
-        return new Argent( this.getMontant() + that.getMontant(), this.getDevise());
+        var converti = that.convertir(this.devise);
+        return new Argent( this.getMontant() + converti.getMontant(), this.getDevise());
     }
 
     public Argent soustraction(Argent that){
-        return new Argent( this.getMontant() - that.getMontant(), this.getDevise());
+        var converti = that.convertir(this.devise);
+        return new Argent( this.getMontant() - converti.getMontant(), this.getDevise());
     }
 
     public Argent multiplier(double facteur){
@@ -33,5 +35,10 @@ public class Argent {
 
     public static Argent dollar(double montant){
         return new Argent(montant, Devise.US_DOLLAR);
+    }
+
+    public Argent convertir(Devise nouvelleDevise){
+        this.devise.getTauxDeChangeVersAriary();
+        return new Argent((this.getMontant() * this.devise.getTauxDeChangeVersAriary()) / nouvelleDevise.getTauxDeChangeVersAriary(), nouvelleDevise);
     }
 }

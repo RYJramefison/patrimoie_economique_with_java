@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class CompteTest {
 
     @Test
@@ -21,17 +23,17 @@ public class CompteTest {
 
         var trainDeVie = new TrainDeVie(
             "depense",
-                LocalDate.of(2024,7,15),
+                LocalDate.of(2024,5,13),
                 Argent.ariary(500_000d),
                 compteCourant,
             1,
-                LocalDate.of(2024,7,15)
+                LocalDate.of(2024,5,13)
             );
 
-        compteCourant.financer(trainDeVie);
 
-        var actual = compteCourant.projectionFuture(LocalDate.of(2024,7,15));
+        var actual = compteCourant.projectionFuture(LocalDate.of(2024,7,26));
 
-        Assertions.assertEquals();
+        Assertions.assertEquals(-400_000d, actual.getValeur().getMontant());
+
     }
 }

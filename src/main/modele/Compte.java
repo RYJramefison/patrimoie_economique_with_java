@@ -2,6 +2,7 @@ package main.modele;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -17,22 +18,33 @@ public final class Compte extends Possession{
 
     @Override
     public Possession projectionFuture(LocalDate dateFuture) {
-        if (this.dateDeCreation.isAfter(dateFuture)) {
+        if (dateDeCreation.isAfter(dateFuture)) {
             return new Compte(
-                this.nom, dateFuture,
-                Argent.ariary(0d), this.dateDeCreation
+                    nom,
+                    dateFuture,
+                    Argent.ariary(0d),
+                    dateDeCreation
             );
         }
 
-        Argent sommeTotalTrainDeVie = this.trainDeVies.stream().map(trainDeVie ->
-            trainDeVie.projectionFuture(dateFuture).valeur)
-            .reduce(Argent::additionner).orElse(Argent.ariary(0d));
+        Argent acc = calulerFinancementFutur(dateFuture);
 
-        return new Compte(
-                this.nom, dateFuture,
-                this.valeur.soustraction(sommeTotalTrainDeVie),
-                this.dateDeCreation
+        return  new Compte(
+                nom,
+                dateFuture,
+                valeur.soustraction(acc),
+                dateDeCreation
         );
+    }
+
+    private Argent calulerFinancementFutur(LocalDate dateFuture) {
+        Argent acc = Argent.ariary(0d);
+        Iterator<TrainDeVie> iterator = trainDeVies.iterator();
+        while (iterator.hasNext()) {
+            Argent valeur1 = iterator.next().projectionFuture(dateFuture).valeur;
+            acc = acc.additionner(valeur1);
+        }
+        return acc;
     }
 
     public void financer(TrainDeVie trainDeVie) {
